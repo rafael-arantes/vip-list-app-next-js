@@ -19,6 +19,32 @@ model Post {
   authorId  String?
 }
 
+model ListMember {
+ id    String   @id @default(cuid())
+ name String
+ email String   @unique
+ lists ListMemberList[]
+}
+
+model List {
+ id        String     @id @default(cuid())
+ title     String
+ content   String?
+ created   Boolean    @default(false)
+ author    User?      @relation(fields: [authorId], references: [id])
+ authorId String?
+ members   ListMemberList[]
+}
+
+model ListMemberList {
+ listId      String
+ list        List      @relation(fields: [listId], references: [id])
+ listMemberId String
+ listMember ListMember @relation(fields: [listMemberId], references: [id])
+
+ @@id([listId, listMemberId])
+}
+
 model User {
   id            String       @default(cuid()) @id
   name          String?
@@ -26,5 +52,6 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   posts         Post[]
+  lists         List[]
   @@map(name: "users")
 }
