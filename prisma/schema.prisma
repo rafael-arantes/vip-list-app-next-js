@@ -20,38 +20,52 @@ model Post {
 }
 
 model ListMember {
- id    String   @id @default(cuid())
- name String
- email String   @unique
- lists ListMemberList[]
+  id    String   @id @default(cuid())
+  name  String
+  email String   @unique
+  lists ListMemberList[]
 }
 
 model List {
- id        String     @id @default(cuid())
- title     String
- content   String?
- created   Boolean    @default(false)
- author    User?      @relation(fields: [authorId], references: [id])
- authorId String?
- members   ListMemberList[]
+  id           String     @id @default(cuid())
+  title        String
+  bgLargeUrl   String?
+  bgSmallUrl   String?
+  created      Boolean    @default(false)
+  author       User?      @relation(fields: [authorId], references: [id])
+  authorId     String?
+  members      ListMemberList[]
+  config       ListConfig? @relation(fields: [configId], references: [id])
+  configId     String
+}
+
+model ListConfig {
+  id            String   @id @default(cuid())
+  showTitle     Boolean @default(true)
+  bgSmallUrl    String?
+  bgLargeUrl    String?
+  lists         List[]
+  author        User?      @relation(fields: [authorId], references: [id])
+  authorId      String
 }
 
 model ListMemberList {
- listId      String
- list        List      @relation(fields: [listId], references: [id])
- listMemberId String
- listMember ListMember @relation(fields: [listMemberId], references: [id])
+  listId      String
+  list        List      @relation(fields: [listId], references: [id])
+  listMemberId String
+  listMember ListMember @relation(fields: [listMemberId], references: [id])
 
- @@id([listId, listMemberId])
+  @@id([listId, listMemberId])
 }
 
 model User {
-  id            String       @default(cuid()) @id
+  id            String    @default(cuid()) @id
   name          String?
   email         String?   @unique
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   posts         Post[]
   lists         List[]
+  listConfigs   ListConfig[]
   @@map(name: "users")
 }

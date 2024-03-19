@@ -21,24 +21,27 @@ export default function Page() {
     console.log('submit');
   }
   return (
-    <div className="w-full h-screen bg-zinc-900 flex justify-center items-center">
-      <form className="w-1/5" onSubmit={onSubmit}>
+    <div className="w-full h-screen flex justify-center items-center bg-gradient-to-r from-violet-600 to-indigo-600">
+      <form className="w-2/3 md:w-1/5" onSubmit={onSubmit}>
         <div className="flex flex-col gap-4 w-full">
-          <p className="text-white">List ID: {listId}</p>
+          <p className="text-white text-center">List ID: {listId}</p>
           <input
-            className="rounded-full p-2 focus:outline-none text-xs w-full"
+            className="rounded-full p-2 focus:outline-none text-xs w-full transition-all focus:scale-105"
             type="name"
             name="name"
             placeholder="Seu nome"
           />
           <input
-            className="rounded-full p-2 focus:outline-none text-xs w-full"
+            className="rounded-full p-2 focus:outline-none text-xs w-full transition-all focus:scale-105"
             type="email"
             name="email"
             placeholder="Seu e-mail"
           />
-          <button className="bg-zinc-100 rounded-full text-xs p-2" type="submit">
-            Entrar
+          <button
+            className="bg-zinc-100 rounded-full text-xs font-bold focus:outline-none focus:scale-105 p-2 hover:bg-zinc-300 transition-all"
+            type="submit"
+          >
+            Participar
           </button>
         </div>
       </form>
